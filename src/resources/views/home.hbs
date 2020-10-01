@@ -1,0 +1,181 @@
+{{!-- <div class="header nemu">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/nike">Nike <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/adidas">Adidas <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+</div> --}}
+ {{> header}}
+
+<div class="container">
+  <div class="row home-filter" style="background-color:#fec09b;">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#">Sort By</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" href="#"><button type="button" class="btn btn-light">Popular</button></a>
+          <a class="nav-link " href="#"><button type="button" class="btn btn-danger">Lasted</button></a>
+          <a class="nav-link " href="#"><button type="button" class="btn btn-light">Best seller</button></a>
+
+          <div class="nav-link dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Price
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Hight to low</a>
+              <a class="dropdown-item" href="#">Low to hight</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cart-icon">
+       <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+        <span class="cart_number">0</span>
+      </div>
+
+    </nav>
+  </div>
+  <div class="row row_list">
+    <div class="col">
+      <div class="row row-cols-1 row-cols-md-3">
+        {{#each courses}}
+        <div class="col col-lg-3 mb-3">
+          <div class="card-group" style="width: 16rem;">
+            <div class="card home-list">
+              <a href="/courses/{{this.slug}}">
+                <img src="{{this.image}}" class="card-img-top card-img" alt="...">
+              </a>
+              <div class="card-body">
+                <a href="/courses/{{this.slug}}">
+                  <h5 class="card-title-name">Name: {{this.name}}</h5>
+                </a>
+                <a href="/courses/{{this.slug}}">
+                  <h5 class="card-title">Description: {{this.brand}}</h5>
+                </a>
+                <p class="card-text">Price: {{this.price}}</p>
+                <a name="" id="" class="btn btn-primary cart-buy" role="button">Add to cart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+let carts = document.querySelectorAll('.cart-buy');
+
+  let products = [
+
+  {{#each courses}}
+      {
+        
+        name: "{{this.name}}",
+        price: {{this.price}},
+        brand:"{{this.brand}}",
+        inCart: 0
+      },
+  {{/each}}
+
+  ];
+
+  for(let i = 0; i <carts.length;i++){
+    carts[i].addEventListener('click',() =>{
+       cartNumbers(products[i]);
+       totalCost(products[i]);
+       console.log("âl")
+    })
+  }
+
+  function onLoadCartNumber(){
+      let productNumbers = localStorage.getItem('cartNumbers');
+      productNumbers = parseInt(productNumbers);
+
+      if(productNumbers){
+          document.querySelector('.cart_number').textContent = productNumbers;
+    }
+  } 
+
+//ham tinh so luong cac san pham
+  function cartNumbers(product){
+    let productNumbers = localStorage.getItem('cartNumbers');
+    productNumbers = parseInt(productNumbers);
+  
+    if(productNumbers){
+         localStorage.setItem('cartNumbers',productNumbers +1);
+         document.querySelector('.cart_number').textContent = productNumbers +1;
+    }
+    else{
+        localStorage.setItem('cartNumbers',1);
+        document.querySelector('.cart_number').textContent = 1;
+    }
+
+    setItem(product)
+}
+
+
+//ham tinh so luong tung san pham va lay gia 
+function setItem(product){
+    let cartItems = localStorage.getItem("productInCart");
+    cartItems = JSON.parse(cartItems);
+
+    if(cartItems != null){
+
+        if(cartItems[product.name] == undefined){
+            cartItems = {
+                ...cartItems,
+                [product.name] : product
+            }
+        }
+        cartItems[product.name].inCart += 1;
+    }else {
+        product.inCart = 1;
+        cartItems = {
+            [product.name] : product
+        }
+    }
+
+    localStorage.setItem("productInCart",JSON.stringify(cartItems));
+}
+
+//ham tinh gia cua toan bo san pham
+function totalCost(product){
+    let total = localStorage.getItem("productPrice");
+
+    if(total != null){
+        total = parseInt(total);
+        localStorage.setItem("productPrice", total + product.price);
+    }else{
+        localStorage.setItem("productPrice", product.price);
+    }
+}
+
+onLoadCartNumber()
+  
+</script>

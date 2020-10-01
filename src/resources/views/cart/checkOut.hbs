@@ -1,0 +1,151 @@
+ {{> header}}
+
+<body class="body-1">
+    <div class="check-out" style="margin-top: 20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 customer-info">
+                    <div class="card" style="width: 100%;">
+                        <h5 class="card-title-1">Customer information</h5>
+                        <div class="card-body">
+                           <form method="post" action="/customer/create">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Leona Messi" name="name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="sdt">Number Phone</label>
+                                        <input type="text" class="form-control" id="sdt" placeholder="......"name = "sdt">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Address 2</label>
+                                    <input type="text" class="form-control" id="inputAddress2"
+                                        placeholder="Apartment, studio, or floor">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputCity">City</label>
+                                        <input type="text" class="form-control" id="inputCity"name="city">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputState">Form of payment</label>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>Payment in cash</option>
+                                            <option>Payment by Paypal</option>
+                                            <option>Payment by MoMp<i class="fab fa-cc-paypal"></i></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            Accept order
+                                        </label>
+                                    </div>
+                                </div>
+                                <a class="btn" style="background-color: #ed969e;" href="/cart" role="button">Back to Cart</a>
+                                <a class="btn" href="/home" style="background-color: #ed969e;" role="button">Back to shop</a>
+                               <button  class="btn" style="background-color: #ed969e;" href="" role="button">Order </button>
+                                {{!-- <button type="#" class="btn btn-primary">Thêm Sản Phẩm</button> --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 checkOut-cart">
+                    <h5 class="card-title-1">Order Summary</h5>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                             <th scope="col">STT</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Quantities</th>
+                            <th scope="col">Price</th>
+                          </tr>
+                        </thead>
+                        <tbody class="checkOut-cart_body">
+                          
+                        </tbody>
+                        
+                      </table>
+                      
+                      {{!-- <div class="oder_summary-total">
+                          <div class="col_name">
+                            <p class="col-name-item">Subtotal:</p>
+                            <p class="col-name-item">Shipping</p>
+                            <p class="col-name-item">Total</p>
+                          </div>
+                          <div class="col_value">
+                            <p class="col_value-item">$2000.00</p>
+                            <p class="col_value-item">$20.00</p>
+                            <p class="col_value-item">$2020.00</p>
+                          </div>
+                    
+                      </div> --}}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function disPlayCart() {
+        let cartItems = localStorage.getItem("productInCart");
+        cartItems = JSON.parse(cartItems);
+        let totalPrice = localStorage.getItem("productPrice");
+        totalPrice = parseInt(totalPrice)
+        let cartNumber = localStorage.getItem("cartNumber");
+       
+
+        let productContainer = document.querySelector(".checkOut-cart_body");
+        let productContainer2 = document.querySelector(".checkOut-cart");
+
+        
+        
+
+        if (cartItems && productContainer) {
+            productContainer.innerHTML = ' ';
+            Object.values(cartItems).map((item,index) => {
+                productContainer.innerHTML += `
+                          <tr>
+                            <td>${index +1}</td>
+                            <td>${item.name}</td>
+                            <td style="text-align: center">${item.inCart}</td>
+                            <td>$${item.price * item.inCart},00</td>
+                          </tr>
+             `
+            });
+        productContainer2.innerHTML += `
+            <div class="oder_summary-total">
+                          <div class="col_name">
+                            <p class="col-name-item">Subtotal:</p>
+                            <p class="col-name-item">Shipping</p>
+                            <p class="col-name-item">Total</p>
+                          </div>
+                          <div class="col_value">
+                            <p class="col_value-item">$${totalPrice},00</p>
+                            <p class="col_value-item">$20,00</p>
+                            <p class="col_value-item">$${totalPrice + 20},00</p>
+                          </div>
+                      </div>
+        `
+        }
+
+    }
+    disPlayCart();
+
+     let order = document.querySelector(".order-submit");
+     order.addEventListener('click',() =>{
+             localStorage.removeItem('productInCart');
+             localStorage.removeItem('productPrice');
+             localStorage.removeItem('cartNumbers');
+        })
+
+    
+</script>

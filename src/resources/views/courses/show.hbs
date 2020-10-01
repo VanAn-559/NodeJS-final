@@ -1,0 +1,54 @@
+{{> header}}
+
+{{!-- <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <img src="{{course.image}}" class="card-img-top" alt="...">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">{{course.name}}</h5>
+          </a>
+          <h5 class="card-title">{{course.brand}}</h5>
+          </a>
+          <p class="card-text">{{course.price}}</p>
+          <a href="/customer" class="btn btn-primary">Thanh toán</a>
+        </div>
+      </div>
+    </div>  --}}
+{{!-- </div>
+        <div class="form-group" >
+        <label for="exampleFormControlTextarea1">Example textarea</label>
+        <textarea class="form-control"  id="exampleFormControlTextarea1" rows="3">
+        {{course.description}}
+        </textarea>
+        </div> --}}
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8">
+      <div class="card mb-3">
+         <img src="{{course.image}}" class="card-img-top" style="height:600px " alt="...">
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card" style="width: 100%;">
+  <div class="card-body">
+    <h5 class="card-title" style="font-size: 2rem;">Product Name: {{course.name}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted " style="font-size: 1.2rem; margin-top: 15px;">Cost: ${{course.price}},00</h6>
+    <p class="card-text" style="margin-top: 30px;">CORE BLACK / CORE BLACK / SOLAR RED</p>
+    <p class="card-text" style="margin-top: 30px;">Description: {{course.description}}</p>
+    <h6> Rating: <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></h6>
+    <div class="card-footer bg-transparent border-success" style="margin-left: 0;"></div>
+    <div class="form-group">
+    <label for="exampleFormControlTextarea1" style="margin-bottom: 10px;">Comment</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write something ..." style="height: 148px; border: solid 1px #333"></textarea>
+    <a class="btn btn-dark" href="#" role="button" style="margin-top: 5px; text-align: right;">Send</a>
+  </div>
+
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
